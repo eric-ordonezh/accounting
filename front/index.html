@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Pol</title>
+        <script src="resources/react-0.13.3.js"></script>
+        <script src="resources/JSXTransformer-0.13.3.js"></script>
+        <style>
+            header, section, footer, aside, nav, main, article, figure {
+                display: block;
+            }
+            .sheet {
+                position: relative;
+                width: 80%;
+	            padding: 50px;
+	            margin: 0 auto;
+	            background-color: #fff;
+	           -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+	           -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+	            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.1);
+            }
+            .sheet:before, .sheet:after {
+                position: absolute;
+                width: 30%;
+                height: 10px;
+                content: ' ';
+                left: 12px;
+                bottom: 16px;
+                background: transparent;
+                -webkit-transform: skew(-5deg) rotate(-5deg);
+                -moz-transform: skew(-5deg) rotate(-5deg);
+                -ms-transform: skew(-5deg) rotate(-5deg);
+                -o-transform: skew(-5deg) rotate(-5deg);
+                transform: skew(-5deg) rotate(-5deg);
+                -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+                -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+                z-index: -1;
+            }
+            .sheet:after {
+                left: auto;
+                right: 12px;
+                -webkit-transform: skew(5deg) rotate(5deg);
+                -moz-transform: skew(5deg) rotate(5deg);
+                -ms-transform: skew(5deg) rotate(5deg);
+                -o-transform: skew(5deg) rotate(5deg);
+                transform: skew(5deg) rotate(5deg);
+            }
+            
+            body {
+              background: #D8D8D8;
+            }
+            .page {
+              background: #fff;
+              width: 250px;
+              height: 330px;
+              margin: 50px;
+              border-radius: 9px;
+              padding-top: 20px;
+              padding-left: 10px;
+              padding-right: 10px;
+            }
+            .page h2 {
+              font: 400 25px/1.5 'Lilita One', Helvetica, sans-serif;
+            }
+
+            .page p {
+              padding: 10px 20px;
+              font: 12px/1.5 Helvetica, sans-serif;
+              color: #4b4b4b;
+            }
+            .foldtr::before {
+                border-bottom: 50px solid #fafafa;
+                border-right: 50px solid #D8D8D8;
+                box-shadow: -6px 5px 6px rgba(0, 0, 0, 0.15);
+                content: "";
+                height: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 0;
+            }
+            .foldtr::after {
+                border-left: 50px solid transparent;
+                border-top: 50px solid #D8D8D8;
+                content: "";
+                height: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 0;
+            }
+            .foldtr {
+                box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.4);
+                position: relative;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <!--section class="sheet">
+        </section-->
+        <section class="page foldtr" id="container">
+        </section>
+        <script type="text/jsx">
+            var title = "ANONYMOUS";
+            var Titulo = React.createClass({
+                getInitialState: function(){
+                    return {name: {title}};
+                },
+                render: function(){
+                    var style = {color: '#777',position:'relative',margin:'0 0 0 0'};
+                    return (<h2 style={style}>{this.state.name}</h2>);
+                }
+            });
+            var typePoliza = 'DIARIO';
+            var TipoPoliza = React.createClass({
+                getInitialState: function(){
+                    return {tipoPoliza: {typePoliza}};
+                },
+                render: function(){
+                var style = {color: '#777',position:'relative',margin:'0 0 0 0'};
+                    return (<h3 style={style}>Poliza {this.state.tipoPoliza}</h3>);
+                }
+            });
+            var pagina = 1;
+            var Pagina= React.createClass({
+                getInitialState: function(){
+                    return {numero: {pagina}};
+                },
+                render: function(){
+                    var style = {position: 'relative',top: '170px','text-align': 'center'};
+                    return (<footer style={style}><p>-{this.state.numero}-</p></footer>);
+                }
+            });
+            var Root = React.createClass({
+                render: function(){
+                    return (<main>
+                            <article>
+                                <Titulo/>
+                                <TipoPoliza/>
+                            </article>
+                            <article>
+                                <Movimientos/>
+                            </article>
+                            <Pagina/></main>);
+                }
+            });
+            
+            var Total;
+            var Movimientos = React.createClass({
+                getInitialState: function(){
+                    return {movimientos: [],totalCargo: 0.0,totalAbono: 0.0};
+                },
+                render: function(){
+                    var style = {'border-bottom-width': 'thin', 'border-bottom-style': 'solid'};
+                    return (<table width="100%">
+                            <thead>
+                                <tr>
+                                    <th style={style}>Fecha</th>
+                                    <th style={style}>Concepto</th>
+                                    <th style={style}>Cargo</th>
+                                    <th style={style}>Abono</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colSpan="4" style={{'text-align':'left','font-weight': 'bold'}}><a>...</a></td>
+                                </tr>
+                                <tr>
+                                    <td colSpan="2" style={{'text-align':'right','font-weight': 'bold'}}>Total</td>
+                                    <td>${this.state.totalCargo}</td>
+                                    <td>${this.state.totalAbono}</td>
+                                </tr>
+                            </tfoot>
+                            </table>);
+                }
+            });
+        
+            var HelloWorld = React.createClass({
+                getInitialState: function(){
+                    return {liked: false};
+                },
+                handleClick: function(event){
+                    this.setState({liked: !this.state.liked});
+                },
+                render: function(){
+                    var style = {color: this.state.liked?'black':'red'};
+                    return (<span style={style} onClick={this.handleClick}>Hello, <input type="text" placeholder="Your name here" size="10"/>!
+                            It is {this.props.date.toTimeString()}
+                            </span>);
+                }
+            });
+            var props ={date: new Date()};
+//            setInterval(function(){
+//                                React.render(<HelloWorld {...props} date ={new Date()}/>,
+//                                            document.getElementById('container'))
+//                                  },500);
+        React.render(<Root/>,document.getElementById('container'));
+        </script>
+    </body>
+</html>
