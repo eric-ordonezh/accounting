@@ -146,11 +146,43 @@
                             <Pagina/></main>);
                 }
             });
-            
+            var InputMovimientos = React.createClass({
+                getInitialState: function(){
+                    return {estado: 'BLUR'};
+                },
+                handleFocus: function(event){
+                    this.setState({estado: 'FOCUS'});
+                },
+                handleBlur: function(event){
+                    this.setState({estado: 'BLUR'});
+                },
+                render: function(){
+                    var style = (this.state.estado=='BLUR')?{'border-bottom-width': 'thin', 'border-bottom-style': 'solid'}:                      {'border-bottom-width': 'thin'};
+                    return(<input size='5' style={style} onFocus={this.handleFocus} onBlur={this.handleBlur} />);
+                }
+            });
+            var ListaMovimientos = React.createClass({
+                render: function(){
+                    var createItem = function(itemText, index) {
+                      return (<tr key={index + itemText}>
+                        <td><InputMovimientos/></td>
+                        <td><InputMovimientos/></td>
+                        <td><InputMovimientos/></td>
+                        <td><InputMovimientos/></td>;
+                      </tr>);
+                    };
+                    return (<tbody>{this.props.items.map(createItem)}</tbody>);
+                }
+            });
             var Total;
             var Movimientos = React.createClass({
                 getInitialState: function(){
                     return {movimientos: [],totalCargo: 0.0,totalAbono: 0.0};
+                },
+                handleSubmit: function(e){
+                    e.preventDefault();
+                    var nextItems = this.state.movimientos.concat(['texto']);
+                    this.setState({movimientos: nextItems});
                 },
                 render: function(){
                     var style = {'border-bottom-width': 'thin', 'border-bottom-style': 'solid'};
@@ -163,10 +195,14 @@
                                     <th style={style}>Abono</th>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
+                            <ListaMovimientos items={this.state.movimientos}/>
                             <tfoot>
                                 <tr>
-                                    <td colSpan="4" style={{'text-align':'left','font-weight': 'bold'}}><a>...</a></td>
+                                    <td colSpan="4" style={{'text-align':'left','font-weight': 'bold'}}>
+                                        <form onSubmit={this.handleSubmit}>
+                                          <button>...</button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colSpan="2" style={{'text-align':'right','font-weight': 'bold'}}>Total</td>
